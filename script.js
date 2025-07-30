@@ -73,22 +73,60 @@ function gameCheck() {
   return null;
 }
 
-// player1.playMarker(0);
-// console.log("Game Status: ", gameCheck());
+let currentPlayer = player1;
 
-// player1.playMarker(1);
-// console.log("Game Status: ", gameCheck());
+function displayGameBoard() {
+  const boardContainer = document.createElement("div");
+  boardContainer.classList.add("board-container");
+  document.body.appendChild(boardContainer);
 
-// player1.playMarker(2);
-// console.log("Game Status: ", gameCheck());
+  const boardSize = 9;
+  for (let i = 0; i <= boardSize; i++) {
+    const boardSpace = document.createElement("div");
+    boardSpace.classList.add("board-space");
+    boardSpace.textContent = "";
+    boardContainer.appendChild(boardSpace);
 
-// player2.playMarker(3);
-// console.log("Game Status: ", gameCheck());
+    boardSpace.addEventListener("click", function () {
+      if (gameBoard.board[i] === null && !gameCheck()) {
+        currentPlayer.playMarker(i);
+        boardSpace.textContent = currentPlayer.marker;
 
-// player2.playMarker(4);
-// console.log("Game Status: ", gameCheck());
+        const result = gameCheck();
+        if (result !== null && result.winner) {
+          alert(`Player ${currentPlayer.marker} wins!`);
+        } else if (result != null && result.tie) {
+          alert("It's a tie!");
+        } else {
+          if (currentPlayer === player1) {
+            currentPlayer = player2;
+          } else {
+            currentPlayer = player1;
+          }
+        }
+      }
+    });
+  }
+}
 
-// player2.playMarker(5);
-// console.log("Game Status: ", gameCheck());
+function playGame() {
+  if (gameCheck() === null) {
+    const startButton = document.createElement("button");
+    startButton.classList.add("start-button");
+    startButton.textContent = "Start New Game";
+    document.body.appendChild(startButton);
 
-// console.log(gameBoard);
+    startButton.addEventListener("click", function () {
+      gameBoard.reset();
+
+      const oldBoard = document.querySelector(".board-container");
+      if (oldBoard) {
+        oldBoard.remove();
+      }
+
+      displayGameBoard();
+    });
+  }
+}
+
+playGame();
