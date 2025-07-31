@@ -22,3 +22,89 @@
   font-size: 4rem;
   cursor: pointer;
 }
+
+.board-space:hover {
+  background: #bee4ff;
+}
+
+.game-interface {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 2rem;
+}
+
+h3 {
+  margin-top: 24px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1.5rem;
+  background: #f7f7f7;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  align-items: center;
+}
+
+.player-section-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+  justify-content: center;
+}
+
+.player-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.input-label {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.player-input {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  width: 180px;
+}
+
+.player-input:focus {
+  border-color: #0078d7;
+  outline: none;
+}
+
+.start-button,
+.submit-button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  background: #0078d7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.start-button:hover,
+.submit-button:hover {
+  background: #005fa3;
+}
+
+.game-message {
+  margin: 1rem;
+}

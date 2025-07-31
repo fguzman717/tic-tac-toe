@@ -81,7 +81,7 @@ function displayGameBoard() {
   document.body.appendChild(boardContainer);
 
   const boardSize = 9;
-  for (let i = 0; i <= boardSize; i++) {
+  for (let i = 0; i < boardSize; i++) {
     const boardSpace = document.createElement("div");
     boardSpace.classList.add("board-space");
     boardSpace.textContent = "";
@@ -93,10 +93,21 @@ function displayGameBoard() {
         boardSpace.textContent = currentPlayer.marker;
 
         const result = gameCheck();
+        const gameInterface = document.querySelector(".game-interface");
         if (result !== null && result.winner) {
-          alert(`Player ${currentPlayer.marker} wins!`);
+          const winnerMessage = document.createElement("div");
+          winnerMessage.classList.add("game-message");
+          winnerMessage.textContent = `${currentPlayer.name} wins!`;
+          if (gameInterface) {
+            gameInterface.appendChild(winnerMessage);
+          }
         } else if (result != null && result.tie) {
-          alert("It's a tie!");
+          const tieMessage = document.createElement("div");
+          tieMessage.classList.add("game-message");
+          tieMessage.textContent = "It's a tie!";
+          if (gameInterface) {
+            gameInterface.appendChild(tieMessage);
+          }
         } else {
           if (currentPlayer === player1) {
             currentPlayer = player2;
@@ -111,10 +122,14 @@ function displayGameBoard() {
 
 function playGame() {
   if (gameCheck() === null) {
+    const gameInterface = document.createElement("div");
+    gameInterface.classList.add("game-interface");
+    document.body.appendChild(gameInterface);
+
     const startButton = document.createElement("button");
     startButton.classList.add("start-button");
     startButton.textContent = "Start New Game";
-    document.body.appendChild(startButton);
+    gameInterface.appendChild(startButton);
 
     startButton.addEventListener("click", function () {
       gameBoard.reset();
@@ -124,7 +139,85 @@ function playGame() {
         oldBoard.remove();
       }
 
-      displayGameBoard();
+      const oldMessage = document.querySelector(".game-message");
+      if (oldMessage) {
+        oldMessage.remove();
+      }
+
+      const nameInputHeader = document.createElement("h3");
+      nameInputHeader.textContent = "Please Enter Your Names";
+      gameInterface.appendChild(nameInputHeader);
+
+      const formContainer = document.createElement("div");
+      formContainer.classList.add("form-container");
+      gameInterface.appendChild(formContainer);
+
+      const playerSectionRow = document.createElement("div");
+      playerSectionRow.classList.add("player-section-row");
+      formContainer.appendChild(playerSectionRow);
+
+      const playerOneSection = document.createElement("div");
+      playerOneSection.classList.add("player-section");
+      playerSectionRow.appendChild(playerOneSection);
+
+      const playerOneLabel = document.createElement("label");
+      playerOneLabel.classList.add("input-label");
+      playerOneLabel.setAttribute("for", "playerOneInput");
+      playerOneLabel.textContent = "'X' Player Name";
+      playerOneSection.appendChild(playerOneLabel);
+
+      const playerOneInput = document.createElement("input");
+      playerOneInput.classList.add("player-input");
+      playerOneInput.id = "playerOneInput";
+      playerOneInput.type = "text";
+      playerOneInput.name = "name";
+      playerOneInput.required = true;
+      playerOneInput.minLength = 10;
+      playerOneInput.maxLength = 16;
+      playerOneSection.appendChild(playerOneInput);
+
+      const playerTwoSection = document.createElement("div");
+      playerTwoSection.classList.add("player-section");
+      playerSectionRow.appendChild(playerTwoSection);
+
+      const playerTwoLabel = document.createElement("label");
+      playerTwoLabel.classList.add("input-label");
+      playerTwoLabel.setAttribute("for", "playerTwoInput");
+      playerTwoLabel.textContent = "'O' Player Name";
+      playerTwoSection.appendChild(playerTwoLabel);
+
+      const playerTwoInput = document.createElement("input");
+      playerTwoInput.classList.add("player-input");
+      playerTwoInput.id = "playerTwoInput";
+      playerTwoInput.type = "text";
+      playerTwoInput.name = "name";
+      playerTwoInput.required = true;
+      playerTwoInput.minLength = 10;
+      playerTwoInput.maxLength = 16;
+      playerTwoSection.appendChild(playerTwoInput);
+
+      const nameSubmit = document.createElement("input");
+      nameSubmit.classList.add("submit-button");
+      nameSubmit.type = "submit";
+      formContainer.appendChild(nameSubmit);
+
+      nameSubmit.addEventListener("click", function () {
+        const playerOneName = playerOneInput.value;
+        const playerTwoName = playerTwoInput.value;
+
+        player1.name = playerOneName;
+        player2.name = playerTwoName;
+
+        nameInputHeader.remove();
+        formContainer.remove();
+        playerOneLabel.remove();
+        playerOneInput.remove();
+        playerTwoLabel.remove();
+        playerTwoInput.remove();
+        nameSubmit.remove();
+
+        displayGameBoard();
+      });
     });
   }
 }
